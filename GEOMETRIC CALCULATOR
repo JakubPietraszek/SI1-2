@@ -1,0 +1,188 @@
+#include<stdio.h>
+#define _USE_MATH_DEFINES 
+#include <math.h>
+double distance(int A1, int A2, int B1, int B2) {
+	double Distance = sqrt((B1 - A1) * (B1 - A1) + (B2 - A2)* (B2 - A2));
+	return Distance;
+}
+double absolute(double arg) {
+	if (arg < 0)
+		arg = -arg;
+
+
+	return arg;
+}
+double heronsFormula(double x, double y, double z) {
+	double s = (x + y + z) / 2;
+	double area = sqrt(s * (s - x) * (s - y) * (s - z));
+	return area;
+}
+int main() {
+	printf("Hello! Decide, if you want to specify the dimension or the point coordinates \n");
+	printf("1: dimension\n");
+	printf("2: point coordinates\n");
+	int Choice;
+	scanf_s("%d", &Choice);
+	if (Choice == 1) {
+
+		printf("Choose the figure which perimeter and area you want to calculate: \n");
+		printf("1: circle \n");
+		printf("2: trangle \n");
+		printf("3: rectangle \n");
+		printf("4: different trapeze \n");
+		int choice;
+		scanf_s("%d", &choice);
+		switch (choice) {
+		case 1:
+			printf("Specify the length of the radius: \n");
+			double radius;
+			scanf_s("%lf", &radius);
+			double circle_perimeter = 2 * M_PI * radius;
+			printf("Perimeter of the circle equals %lf \n", circle_perimeter);
+			double circle_area = radius*radius * M_PI;
+			printf("Area of the circle equals %lf \n", circle_area);
+			break;
+
+
+		case 2:
+			printf("Specify lengths of the triangle's sides: \n");
+			double a, b, c;
+			scanf_s("%lf %lf %lf", &a, &b, &c);
+			if (a + b <= c || a + c <= b || b + c <= a) {
+				printf("Invalid input! This is not a traingle!");
+				
+			}
+			double triangle_perimeter = a + b + c;
+			double s = triangle_perimeter / 2;
+			double triangle_area = heronsFormula(a, b, c);
+			printf("Perimeter of the triangle equals %lf\n", triangle_perimeter);
+			printf("Area of the triangle equals %lf\n", triangle_area);
+			break;
+
+		case 3:
+			printf("Specify the lengths of two different sides (in case it is a sqaure determine the side twice): \n");
+			double e, f;
+			scanf_s("%lf %lf", &e, &f);
+			double rectangle_perimeter = 2 * (e + f);
+			double rectangle_area = e * f;
+			printf("Perimeter of the rectangle equals %lf\n", rectangle_perimeter);
+			printf("Area of the rectangle equals %lf\n", rectangle_area);
+			break;
+
+		case 4:
+			printf("Specify the length of the longer basis: \n");
+			double g;
+			scanf_s("%lf", &g);
+			printf("Specify the length of the shorter basis: \n");
+			double h;
+			scanf_s("%lf", &h);
+			if (g < h) {
+				printf("Invalid input!");
+				exit(1);
+			}
+			printf("Specify the lengths of the arms: \n");
+			double  i, j;
+			scanf_s("%lf %lf", &i, &j);
+
+			if (absolute(i - j) > absolute(g - h) || absolute(g - h) > i + j) { //checking if the given sides can form a trapeze
+				printf("Invalid input! It is no trapeze!\n");
+				exit(1);
+			}
+			
+			double height = 2*heronsFormula(i, j, (g-h))/(g-h);
+			
+			
+			// we can observe that sides  i,j,(g-h) can form a 
+			//triangle with a height the same as the height of the whole trapeze, so the area of this triangle is equal to 
+			//(g-h)*height/2, which is the same area calculated with the Heron's formula
+			double trapeze_perimeter = i + j + g + h;
+			double trapeze_area = height * (h + g) / 2;
+			printf("Perimeter of the trapeze equals %lf \n", trapeze_perimeter);
+			printf("Area of the trapeze equals %lf", trapeze_area); 
+
+
+
+		}  
+	}  
+	if (Choice == 2) {
+		printf("Hej!");
+		
+		printf("Choose the figure which perimeter and area you want to calculate: \n");
+		printf("1: circle \n");
+		printf("2: trangle \n");	
+		printf("3: trapeze \n");
+		int CHOICE;
+		scanf_s("%d", &CHOICE);
+		switch (CHOICE) {
+		case 1:
+			printf("Specify the point coordinates of the centre circle:\n");
+			int O1, O2;
+			scanf_s("%d %d", &O1, &O2);
+			printf("Specify the point coordinates of a random point on the circle: \n");
+			int O3, O4;
+			scanf_s("%d %d", &O3, &O4);
+			double Circle_perimeter = 2 * M_PI * distance(O1, O2, O3, O4);
+			double Circle_Area = distance(O1, O2, O3, O4) * distance(O1, O2, O3, O4) * M_PI;
+			printf("Perimeter of the circle equals %lf\n", Circle_perimeter);
+			printf("Area of the circle equals %lf\n", Circle_Area);
+			break;
+		case 2:
+			printf("Specify the point coordeinate of the first vertex: \n");
+			int X1, Y1;
+			scanf_s("%d %d", &X1, &Y1);
+			printf("Specify the point coordeinate of the second vertex: \n");
+			int X2, Y2;
+			scanf_s("%d %d", &X2, &Y2);
+			printf("Specify the point coordeinate of the third vertex: \n");
+			int X3, Y3;
+			scanf_s("%d %d", &X3, &Y3);
+			double side1 = distance(X1, Y1, X2, Y2);
+			double side2 = distance(X3, Y3, X2, Y2);
+			double side3 = distance(X1, Y1, X3, Y3);
+			double Triangle_perimeter = side1 + side2 + side3;
+			double Triangle_area = heronsFormula(side1, side2, side3);
+			printf("Perimeter of the traingle esqulas %lf\n", Triangle_perimeter);
+			printf("Area of the traingle esqulas %lf\n", Triangle_area);
+			break;
+
+
+		case 3:
+
+			printf("Specify the point coordinate of the first vertex: \n");
+			int XX1, YY1;
+			scanf_s("%d %d", &XX1, &YY1);
+			printf("Specify the point coordinate of the second vertex: \n");
+			int XX2, YY2;
+			scanf_s("%d %d", &XX2, &YY2);
+			printf("Specify the point coordinate of the third vertex: \n");
+			int XX3, YY3;
+			scanf_s("%d %d", &XX3, &YY3);
+			printf("Specify the point coordinate of the fourth vertex: \n");
+			int XX4, YY4;
+			scanf_s("%d %d", &XX4, &YY4);
+
+			double SIDE1 = distance(XX1, YY1, XX2, YY2); 
+			double SIDE2 = distance(XX3, YY3, XX2, YY2);
+			double SIDE3 = distance(XX3, YY3, XX4, YY4);
+			double SIDE4 = distance(XX1, YY1, XX4, YY4);
+			double DIAGONAL = distance(XX1, YY1, XX3, YY3);
+			double TRAPEZE_PERIMETE = SIDE1 + SIDE2 + SIDE3 + SIDE4;
+			double TRAPEZE_ARE = heronsFormula(SIDE1, SIDE2, DIAGONAL) + heronsFormula(SIDE3, SIDE4, DIAGONAL);
+			printf("Perimeter of the trapeze equals %lf \n", TRAPEZE_PERIMETE);
+			printf("Area of the trapeze equals %lf", TRAPEZE_ARE);
+			
+
+
+
+			break;
+
+
+
+
+
+
+
+		}
+	}
+	return 0;
+}
